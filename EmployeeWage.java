@@ -6,12 +6,16 @@ interface EmpWageBuilder {
 public class EmployeeWage implements EmpWageBuilder {
        final int IS_PART_TIME = 1;
        final int IS_FULL_TIME = 2;
+	// ArrayList to Store daily Wage along with Monthly Wage
+
+       ArrayList<Integer> empDailyMonthlyTotalWage = new ArrayList<Integer>();
 
        public void computeEmpWage(CompanyEmpWage companyEmpWage) {
            int empHrs = 0;
            int totalWorkingDays = 0;
            int totalEmpHrs = 0;
 	   int totalEmpWage = 0;
+	   int empDailyWage = 0;
 	 while (totalWorkingDays < companyEmpWage.getNumOfWorkingDays() && totalEmpHrs <=  companyEmpWage.getMaxHoursPerMonth()) {
 
            int empCheck = (int) ((Math.random() * 10) % 3);
@@ -30,8 +34,13 @@ public class EmployeeWage implements EmpWageBuilder {
            }
 	    totalWorkingDays++;
            totalEmpHrs = totalEmpHrs + empHrs;
+	   empDailyWage = empHrs * companyEmpWage.getEmpRatePerHour();
+           empDailyMonthlyTotalWage.add( empDailyWage );
+            System.out.println("Day:"+totalWorkingDays +" Wage is : "+empDailyWage );
 	}
-           companyEmpWage.setTotalEmpWage( totalEmpHrs * companyEmpWage.empRatePerHour );
+	   totalEmpWage=( totalEmpHrs * companyEmpWage.getEmpRatePerHour());
+           empDailyMonthlyTotalWage.add( totalEmpWage );
+           companyEmpWage.setTotalEmpWage( totalEmpWage );
            System.out.println("Employee Monthly Wage of " + companyEmpWage.getCompanyName() + " is " + companyEmpWage.getTotalEmpWage());
         }
 	//Main Function
@@ -44,10 +53,13 @@ public class EmployeeWage implements EmpWageBuilder {
               // assign value to object of Companyempwage
               company.add( new CompanyEmpWage("Dmart", 40, 20, 100));
               emp.computeEmpWage(company.get(0));
+	      System.out.println();
               company.add( new CompanyEmpWage("Relience", 30, 22, 120));
        	      emp.computeEmpWage(company.get(1));
+	      System.out.println();
               company.add( new CompanyEmpWage("BigBazar", 45, 18, 90));
               emp.computeEmpWage(company.get(2));
+	      System.out.println();
     }
 }
       
